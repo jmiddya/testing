@@ -1,2 +1,2 @@
-web: node test.js K3RPEW3BXX5R3KSYZBGP5OV24K64SUSH
+web: node test.js
 
