@@ -35,7 +35,7 @@ try {
 
 const accessToken = (() => {
   if (process.argv.length !== 3) {
-    console.log('usage: node test.js K3RPEW3BXX5R3KSYZBGP5OV24K64SUSH');
+    console.log('usage: node test.js');
     process.exit(1);
   }
   return process.argv[2];
