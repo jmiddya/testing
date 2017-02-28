@@ -1,7 +1,0 @@
-{
-  "name": "Node.js Sample",
-  "description": "A Node.js app using Express 4",
-  "repository": "https://github.com/jmiddya/testing",
-  "logo": "http://node-js-sample.herokuapp.com/node.svg",
-  "keywords": ["node", "wit", "static"]
-}
