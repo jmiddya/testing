@@ -1,7 +1,11 @@
-'use strict';
+var express = require('express')
+var app = express()
 
-let Wit = null;
-let interactive = null;
+app.set('port', (process.env.PORT || 5000))
+app.use(express.static(__dirname + '/public'))
+
+//////////JM : START//////////
+var location = 'Kolkata'
 
 var getWeather = function ( location) {
   var url = 'http://api.openweathermap.org/data/2.5/weather?q=' + location + '&appid=f953e7b081a49dc14a56671ffa303848';
@@ -32,43 +36,11 @@ try {
   Wit = require('node-wit').Wit;
   interactive = require('node-wit').interactive;
 }
+//////////JM : END//////////
 
-const accessToken = (() => {
-  if (process.argv.length !== 3) {
-    console.log('usage: node app.js K3RPEW3BXX5R3KSYZBGP5OV24K64SUSH');
-    process.exit(1);
-  }
-  return process.argv[2];
-})();
-
-// Quickstart example
-// See https://wit.ai/ar7hur/quickstart
-
-const firstEntityValue = (entities, entity) => {
-  const val = entities && entities[entity] &&
-    Array.isArray(entities[entity]) &&
-    entities[entity].length > 0 &&
-    entities[entity][0].value;
-  if (!val) {
-    return null;
-  }
-  return typeof val === 'object' ? val.value : val;
-};
-
-const actions = {
-  send(request, response) {
-    const {sessionId, context, entities} = request;
-    const {text, quickreplies} = response;
-    return new Promise(function (resolve, reject) {
-      console.log('sending...', JSON.stringify(response));
-      return resolve();
-    });
-  },
-  getForecast({context, entities}) {
-    var location = firstEntityValue(entities, 'location');
-    if (location) {
-      return new Promise(function (resolve, reject) {
-        return getWeather(location).then(weatherJson => {
+app.get('/', function(request, response) {
+  //response.send('Hello World!')
+  getWeather(location).then(weatherJson => {
 		  var weatherDetails = '';
 		  	
 		  var temp = weatherJson.main.temp - 273.15;
@@ -85,19 +57,12 @@ const actions = {
 			
 		  weatherDetails = weatherDetails + ' in ' + location;
 		  
-          context.forecast = weatherDetails;
-          delete context.missingLocation;
-          return resolve(context);
+          console.log( weatherDetails );
+		  
+		  response.send(weatherDetails);
         })
-      });
-    } else {
-      context.missingLocation = true;
-      delete context.forecast;
-      return Promise.reject(context);
-    }
-    return context;
-  },
-};
+})
 
-const client = new Wit({ accessToken, actions });
-interactive(client);
+app.listen(app.get('port'), function() {
+  console.log("Node app is running at localhost:" + app.get('port'))
+})
