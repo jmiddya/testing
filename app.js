@@ -5,7 +5,7 @@ app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 
 //////////JM : START//////////
-var location = 'Kolkata'
+/*var location = 'Kolkata'
 
 var getWeather = function ( location) {
   var url = 'http://api.openweathermap.org/data/2.5/weather?q=' + location + '&appid=f953e7b081a49dc14a56671ffa303848';
@@ -35,12 +35,12 @@ try {
 } catch (e) {
   Wit = require('node-wit').Wit;
   interactive = require('node-wit').interactive;
-}
+}*/
 //////////JM : END//////////
 
 app.get('/', function(request, response) {
-  //response.send('Hello World!')
-  getWeather(location).then(weatherJson => {
+  response.send('Hello World!')
+  /*getWeather(location).then(weatherJson => {
 		  var weatherDetails = '';
 		  	
 		  var temp = weatherJson.main.temp - 273.15;
@@ -60,7 +60,7 @@ app.get('/', function(request, response) {
           console.log( weatherDetails );
 		  
 		  response.send(weatherDetails);
-        })
+        })*/
 })
 
 app.listen(app.get('port'), function() {
